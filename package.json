@@ -1,0 +1,20 @@
+{
+  "name": "@webdesserts/app-scripts",
+  "version": "0.1.0",
+  "description": "A set of scripts I use to when building new apps",
+  "bin": {
+    "app-scripts": "bin/app-scripts.js"
+  },
+  "author": "Michael Mullins",
+  "license": "MIT",
+  "dependencies": {
+    "text-table": "^0.2.0",
+    "ts-loader": "^4.1.0",
+    "typescript": "^2.8.1",
+    "typescript-plugin-styled-components": "^0.0.5",
+    "strip-ansi": "^4.0.0",
+    "chalk": "^2.3.2",
+    "filesize": "^3.6.1",
+    "webpack": "^4.4.1"
+  }
+}
