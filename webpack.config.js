@@ -15,6 +15,7 @@ function customErrorFormatter(error, colors) {
 module.exports = {
   stats: 'none',
   mode: 'production',
+  devtool: 'source-map',
   output: {
     path: path.resolve(PROJECT_ROOT, 'app/build/')
   },
@@ -37,5 +38,4 @@ module.exports = {
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx']
   },
-  plugins: [ new PrettyWebpack() ]
 };
