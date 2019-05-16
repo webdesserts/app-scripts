@@ -32,8 +32,15 @@ module.exports = {
             errorFormatter: customErrorFormatter
           }
        }
-      ]
-    }]
+        ],
+        rules: [
+          {
+            test: /\.worker\.(js|ts)x?$/,
+            use: [{ loader: require.resolve("worker-loader") }]
+          }
+        ]
+      }
+    ]
   },
   resolve: {
     extensions: ['.ts', '.tsx', '.js', '.jsx']
