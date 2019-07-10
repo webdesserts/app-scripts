@@ -3,7 +3,6 @@ let webpack = require('webpack')
 let config = require('../webpack.config.js')
 
 let compiler = webpack(config)
-let watching = null
 
 let [ node, bin, arg ] = process.argv
 
@@ -12,5 +11,18 @@ if (arg === 'build') {
 }
 
 if (arg === 'start') {
-  watching = compiler.watch({}, () => {})
+  const express = require('express');
+  const middleware = require('webpack-dev-middleware')
+
+  const app = express();
+
+  app.use(
+    middleware(compiler, config.devServer)
+  );
+
+  app.listen(3000);
+}
+
+if (arg === 'watch') {
+  compiler.watch({}, () => {})
 }

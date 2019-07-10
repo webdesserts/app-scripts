@@ -1,41 +1,83 @@
-const webpack = require('webpack');
-const path = require('path');
-const PrettyWebpack = require('./pretty-webpack-plugin')
-const createStyledComponentsTransformer = require('typescript-plugin-styled-components').default
-const chalk = require('chalk')
+const path = require("path");
+const ForkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
+const formatter = require("react-dev-utils/typescriptFormatter");
+const PrettyWebpack = require("./pretty-webpack-plugin");
+const CopyPlugin = require('copy-webpack-plugin')
+const { CleanWebpackPlugin } = require('clean-webpack-plugin')
+let os = require('os')
 
-const PROJECT_ROOT = path.resolve('./')
+let paths = {
+  root: path.resolve('./'),
+  public: path.resolve('./public'),
+  build: path.resolve('./build'),
+  typescript: require.resolve('typescript', { paths: [path.resolve('./')] }),
+  babel_loader_config: require.resolve('./babel.config.js'),
+}
 
-function customErrorFormatter(error, colors) {
-  let position = `${error.line},${error.character}`
-  let code = `TS${error.code}:`
-  return (`${colors.dim(position)} ${colors.bold(code)} ${error.content}`);
+const babel_loader_options = {
+  configFile: paths.babel_loader_config
 }
 
 module.exports = {
-  stats: 'none',
-  mode: 'production',
+  context: paths.root,
+  stats: "none",
+  mode: "production",
+  devtool: "sourcemaps",
   output: {
-    path: path.resolve(PROJECT_ROOT, 'app/build/')
+    path: paths.build,
+    filename: "assets/[name].js"
   },
-
-  module: {
-    rules: [{
-      test: /\.jsx?|\.tsx?$/,
-      exclude: /node_modules/,
-      use: [
-        {
-          loader: require.resolve('ts-loader'),
-          options: {
-            getCustomTransformers: [createStyledComponentsTransformer()],
-            errorFormatter: customErrorFormatter
-          }
-       }
-      ]
-    }]
+  plugins: [
+    new ForkTsCheckerWebpackPlugin({
+      async: false,
+      useTypescriptIncrementalApi: true,
+      // TODO: do we need this in combination with babel?
+      checkSyntacticErrors: false,
+      silent: true,
+      typescript: paths.typescript,
+      formatter
+    }),
+    new PrettyWebpack(),
+    new CopyPlugin([
+      {
+        from: paths.public,
+        to: paths.build
+      }
+    ]),
+    new CleanWebpackPlugin()
+  ],
+  devServer: {
+    contentBase: paths.build,
+    stats: false,
+    historyApiFallback: true,
+    writeToDisk: true,
+    host: "0.0.0.0",
+    public: os.hostname()
   },
   resolve: {
-    extensions: ['.ts', '.tsx', '.js', '.jsx']
+    extensions: [".ts", ".tsx", ".js", ".json"]
   },
-  plugins: [ new PrettyWebpack() ]
+  module: {
+    rules: [
+      {
+        test: /\.svg$/,
+        use: [
+          {
+            loader: require.resolve("babel-loader"),
+            options: babel_loader_options
+          },
+          {
+            loader: require.resolve("@svgr/webpack"),
+            options: { babel: false }
+          }
+        ]
+      },
+      {
+        test: /\.tsx?$/,
+        exclude: /node_modules/,
+        loader: require.resolve("babel-loader"),
+        options: babel_loader_options
+      }
+    ]
+  }
 };

@@ -3,12 +3,10 @@
 let chalk = require('chalk')
 let table = require('text-table')
 let filesize = require('filesize')
-let webpack = require('webpack')
 let stripAnsi = require('strip-ansi')
-let formatMessages = require('./format-webpack-messages')
+let formatWebpackMessages = require('react-dev-utils/formatWebpackMessages')
 
 module.exports = class PrettyWebpack {
-
   constructor(userOptions) {
     let defaultOptions = {
       port: 3001,
@@ -39,7 +37,7 @@ module.exports = class PrettyWebpack {
   apply(compiler) {
     compiler.hooks.compile.tap({ name: 'compiling notice' }, () => {
       this.clearConsole();
-      console.log(chalk.bgBlue(' Compiling... '))
+      console.log(chalk.cyan.inverse(' Compiling... '))
     });
 
     compiler.hooks.done.tap({ name: 'completion notice' }, (stats) => {
@@ -47,18 +45,18 @@ module.exports = class PrettyWebpack {
       let hasErrors = stats.hasErrors();
       let hasWarnings = stats.hasWarnings();
       let json = stats.toJson({}, true)
-      let messages = formatMessages(json)
+      let messages = formatWebpackMessages(json)
 
       /* Titles */
 
       if (!hasErrors && !hasWarnings) {
-        console.log(chalk.bgGreen.white(' Compiled '));
+        console.log(chalk.green.inverse(' Compiled '));
         console.log()
       } else if (hasErrors) {
-        console.log(chalk.bgRed.white(' Compile Failed '));
+        console.log(chalk.red.inverse(' Compile Failed '));
         console.log();
       } else if (hasWarnings) {
-        console.log(chalk.bgYellow.white(' Compiled '));
+        console.log(chalk.yellow.inverse(' Compiled '));
         console.log()
       }
 
