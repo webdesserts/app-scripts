@@ -37,7 +37,7 @@ yarn add --dev @webdesserts/app-scripts
 From here you'll want to ensure you've done the following:
 
 - Add an `index.html` to the `public/` folder.
-- Add a `main.ts` (or `.js`) to the `src/` folder.
+- Add a `index.ts` (or `.js`) to the `src/` folder.
 - Add a `.tsconfig.json` with the following contents:
   ```json
   { "extends": "./node_modules/@webdesserts/app-scripts" }
