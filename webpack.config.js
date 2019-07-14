@@ -55,7 +55,7 @@ module.exports = {
     public: os.hostname()
   },
   resolve: {
-    extensions: [".ts", ".tsx", ".js", ".json"]
+    extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
   },
   module: {
     rules: [
