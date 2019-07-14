@@ -73,7 +73,7 @@ module.exports = {
         ]
       },
       {
-        test: /\.tsx?$/,
+        test: /\.(t|j)sx?$/,
         exclude: /node_modules/,
         loader: require.resolve("babel-loader"),
         options: babel_loader_options
