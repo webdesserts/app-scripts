@@ -47,7 +47,7 @@ module.exports = {
     new CleanWebpackPlugin()
   ],
   devServer: {
-    contentBase: paths.build,
+    contentBase: false,
     stats: false,
     writeToDisk: true,
     host: "0.0.0.0",
