@@ -49,7 +49,6 @@ module.exports = {
   devServer: {
     contentBase: paths.build,
     stats: false,
-    historyApiFallback: true,
     writeToDisk: true,
     host: "0.0.0.0",
     public: os.hostname()

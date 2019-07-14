@@ -13,12 +13,12 @@ if (arg === 'build') {
 if (arg === 'start') {
   const express = require('express');
   const middleware = require('webpack-dev-middleware')
+  const history = require('connect-history-api-fallback')
 
   const app = express();
 
-  app.use(
-    middleware(compiler, config.devServer)
-  );
+  app.use(history())
+  app.use(middleware(compiler, config.devServer));
 
   app.listen(3000);
 }
