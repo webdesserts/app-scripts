@@ -4,7 +4,14 @@ const formatter = require("react-dev-utils/typescriptFormatter");
 const PrettyWebpack = require("./pretty-webpack-plugin");
 const CopyPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
-let os = require('os')
+const parseArgs = require('minimist') 
+const os = require('os')
+
+const argv = parseArgs(process.argv.slice(2), {
+  boolean: [ 'debug' ]
+})
+
+const MODE = argv.debug ? "development" : process.env["MODE"] || "production";
 
 let paths = {
   root: path.resolve('./'),
@@ -21,7 +28,7 @@ const babel_loader_options = {
 module.exports = {
   context: paths.root,
   stats: "none",
-  mode: "production",
+  mode: MODE,
   devtool: "sourcemaps",
   output: {
     path: paths.build,
@@ -49,7 +56,7 @@ module.exports = {
   devServer: {
     contentBase: false,
     stats: false,
-    writeToDisk: true,
+    writeToDisk: MODE === 'production',
     host: "0.0.0.0",
     public: os.hostname()
   },

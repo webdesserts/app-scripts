@@ -3,7 +3,7 @@
 `app-scripts` is a set of scripts that I use to build my personal websites right now. In short, it's a stripped down version of `react-scripts` that uses some of the main plugins from `react-dev-utils`, but ultimately caters to a my particular use-cases. Some of the features include:
 
 - Built for Beaker Browser and homebase
-- No difference between development and production
+- Production builds by default. Development builds with `--debug`
 - Caters to the following tech:
   - React
   - Typescript
