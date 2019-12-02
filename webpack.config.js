@@ -1,7 +1,6 @@
 const path = require("path");
 const ForkTsCheckerWebpackPlugin = require("react-dev-utils/ForkTsCheckerWebpackPlugin");
 const formatter = require("react-dev-utils/typescriptFormatter");
-const CopyPlugin = require('copy-webpack-plugin')
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const os = require('os')
 const PrettyWebpack = require("./pretty-webpack-plugin");
@@ -10,7 +9,7 @@ const env = require('./env')
 let paths = {
   root: path.resolve('./'),
   public: path.resolve('./public'),
-  build: path.resolve('./build'),
+  assets: path.resolve('./public/assets'),
   typescript: require.resolve('typescript', { paths: [path.resolve('./')] }),
   babel_loader_config: require.resolve('./babel.config.js'),
 }
@@ -25,8 +24,8 @@ module.exports = {
   mode: env.MODE,
   devtool: "sourcemaps",
   output: {
-    path: paths.build,
-    filename: "assets/[name].js"
+    path: paths.assets,
+    filename: "[name].js"
   },
   plugins: [
     new ForkTsCheckerWebpackPlugin({
@@ -39,12 +38,6 @@ module.exports = {
       formatter
     }),
     new PrettyWebpack(),
-    new CopyPlugin([
-      {
-        from: paths.public,
-        to: paths.build
-      }
-    ]),
     new CleanWebpackPlugin()
   ],
   devServer: {
