@@ -26,10 +26,12 @@ const subcommands = {
     const express = require('express');
     const middleware = require('webpack-dev-middleware')
     const history = require('connect-history-api-fallback')
+    const { devServer: serverConfig } = config
 
     const app = express();
 
-    app.use(middleware(compiler, config.devServer));
+    if (serverConfig.before) serverConfig.before(app)
+    app.use(middleware(compiler, serverConfig));
     app.use(history())
 
     app.listen(3000);

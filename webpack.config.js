@@ -45,7 +45,11 @@ module.exports = {
     stats: false,
     writeToDisk: env.isProd,
     host: "0.0.0.0",
-    public: os.hostname()
+    public: os.hostname(),
+    before: (app) => {
+      const { static } = require('express')
+      app.use('/', static(paths.public))
+    }
   },
   resolve: {
     extensions: [".ts", ".tsx", ".js", ".jsx", ".json"]
