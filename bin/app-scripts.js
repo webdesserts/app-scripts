@@ -1,36 +1,82 @@
 #!/usr/bin/env node
-const webpack = require('webpack')
 const chalk = require('chalk')
+const webpack = require('webpack')
 const config = require('../webpack.config.js')
 const env = require('../env')
 
 const compiler = webpack(config)
 
-if (env.subcommand === 'build') {
-  compiler.run()
-  if (env.isDev) {
-    const label = chalk.bold.yellow("WARN")
-    console.warn(`${label} you're building your app in development mode, please don't publish this bundle.`)
+const subcommands = {
+  help () {
+    const label = chalk.bold("USAGE")
+    console.info(`${label} app-scripts <command>`)
+    console.info(getSubcommandList())
+  },
+
+  build (env) {
+    compiler.run()
+
+    if (env.isDev) {
+      const label = chalk.bold.yellow("WARN")
+      console.warn(`${label} you're building your app in development mode, please don't publish this bundle.`)
+    }
+  },
+
+  dev (env) {
+    const express = require('express');
+    const middleware = require('webpack-dev-middleware')
+    const history = require('connect-history-api-fallback')
+
+    const app = express();
+
+    app.use(middleware(compiler, config.devServer));
+    app.use(history())
+
+    app.listen(3000);
+  },
+
+  watch (env) {
+    if (env.isDev) {
+      const label = chalk.bold.yellow("WARN")
+      console.warn(`${label} you're building your app in development mode, please don't publish this bundle.`)
+    }
+
+    compiler.watch({}, () => {})
   }
 }
 
-if (env.subcommand === 'dev') {
-  const express = require('express');
-  const middleware = require('webpack-dev-middleware')
-  const history = require('connect-history-api-fallback')
+function executeSubcommand(env) {
+  const fn = subcommands[env.subcommand]
 
-  const app = express();
-
-  app.use(middleware(compiler, config.devServer));
-  app.use(history())
-
-  app.listen(3000);
-}
-
-if (env.subcommand === 'watch') {
-  if (env.isDev) {
-    const label = chalk.bold.yellow("WARN")
-    console.warn(`${label} you're building your app in development mode, please don't publish this bundle.`)
+  if (!env.subcommand) {
+    return subcommands.help()
+  } else if (fn) {
+    const label = chalk.bold("INFO")
+    console.info(`${label} Executing app-script "${env.subcommand}"`)
+    console.info()
+    fn(env)
+  } else {
+    const label = chalk.bold.red("ERROR")
+    console.error(`${label} Unknown app-script named "${env.subcommand}"`)
+    console.error(getSubcommandList())
   }
-  compiler.watch({}, () => {})
 }
+
+function getSubcommandList() {
+  let lines = []
+
+  lines.push(``)
+  lines.push(chalk.dim(`Commands:`))
+  lines.push(``)
+  let commands = Object.keys(subcommands).map(key => `${key}`).map(indent)
+  lines = lines.concat(commands)
+  lines.push(``)
+
+  return lines.map(indent).join(`\n`)
+}
+
+function indent(string) {
+  return `  ${string}`
+}
+
+executeSubcommand(env)
