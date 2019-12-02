@@ -14,7 +14,7 @@ if (env.subcommand === 'build') {
   }
 }
 
-if (env.subcommand === 'start') {
+if (env.subcommand === 'dev') {
   const express = require('express');
   const middleware = require('webpack-dev-middleware')
   const history = require('connect-history-api-fallback')
