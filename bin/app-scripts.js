@@ -1,4 +1,5 @@
 #!/usr/bin/env node
+const url = require('url')
 const chalk = require('chalk')
 const webpack = require('webpack')
 const config = require('../webpack.config.js')
@@ -27,6 +28,12 @@ const subcommands = {
     const middleware = require('webpack-dev-middleware')
     const history = require('connect-history-api-fallback')
     const { devServer: serverConfig } = config
+    const listeningUrl = url.format({
+      protocol: 'http',
+      hostname: serverConfig.public || serverConfig.host,
+      port: serverConfig.port,
+      pathname: '/'
+    })
 
     const app = express();
 
@@ -34,7 +41,9 @@ const subcommands = {
     app.use(middleware(compiler, serverConfig));
     app.use(history())
 
-    app.listen(3000);
+    app.listen(serverConfig.port, () => {
+      console.log(`Listening at: ${listeningUrl}`);
+    });
   },
 
   watch (env) {

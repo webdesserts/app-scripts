@@ -6,12 +6,16 @@ const os = require('os')
 const PrettyWebpack = require("./pretty-webpack-plugin");
 const env = require('./env')
 
-let paths = {
+const paths = {
   root: path.resolve('./'),
   public: path.resolve('./public'),
   assets: path.resolve('./public/assets'),
   typescript: require.resolve('typescript', { paths: [path.resolve('./')] }),
   babel_loader_config: require.resolve('./babel.config.js'),
+}
+
+const routes = {
+  assets: '/assets/'
 }
 
 const babel_loader_options = {
@@ -25,6 +29,7 @@ module.exports = {
   devtool: "sourcemaps",
   output: {
     path: paths.assets,
+    publicPath: routes.assets,
     filename: "[name].js"
   },
   plugins: [
@@ -42,10 +47,12 @@ module.exports = {
   ],
   devServer: {
     contentBase: false,
+    publicPath: routes.assets,
     stats: false,
     writeToDisk: env.isProd,
     host: "0.0.0.0",
     public: os.hostname(),
+    port: env.PORT,
     before: (app) => {
       const { static } = require('express')
       app.use('/', static(paths.public))
