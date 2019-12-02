@@ -53,6 +53,12 @@ module.exports = {
   module: {
     rules: [
       {
+        test: /\.(t|j)sx?$/,
+        exclude: /node_modules/,
+        loader: require.resolve("babel-loader"),
+        options: babel_loader_options
+      },
+      {
         test: /\.svg$/,
         use: [
           {
@@ -64,12 +70,6 @@ module.exports = {
             options: { babel: false }
           }
         ]
-      },
-      {
-        test: /\.(t|j)sx?$/,
-        exclude: /node_modules/,
-        loader: require.resolve("babel-loader"),
-        options: babel_loader_options
       }
     ]
   }
