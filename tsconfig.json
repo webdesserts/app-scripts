@@ -17,6 +17,7 @@
     "alwaysStrict": true,
   },
   "include": [
-    "../../../src"
+    "../../../src",
+    "../../../api"
   ]
 }
