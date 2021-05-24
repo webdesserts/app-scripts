@@ -1,5 +1,4 @@
 #!/usr/bin/env node
-const url = require('url')
 const chalk = require('chalk')
 const webpack = require('webpack')
 const config = require('../webpack.config.js')
@@ -27,12 +26,9 @@ const subcommands = {
     const express = require('express');
     const middleware = require('webpack-dev-middleware')
     const { devServer: serverConfig } = config
-    const listeningUrl = url.format({
-      protocol: 'http',
-      hostname: serverConfig.public || serverConfig.host,
-      port: serverConfig.port,
-      pathname: '/'
-    })
+    const hostname = serverConfig.public || serverConfig.host
+    const port = serverConfig.port
+    const listeningUrl = new URL(`http://${hostname}:${port}/`)
 
     const app = express();
 
