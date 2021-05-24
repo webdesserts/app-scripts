@@ -54,7 +54,9 @@ module.exports = {
     public: os.hostname(),
     port: env.PORT,
     before: (app) => {
+      const history = require('connect-history-api-fallback')
       const { static } = require('express')
+      app.use(history())
       app.use('/', static(paths.public))
     }
   },

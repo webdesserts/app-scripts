@@ -26,7 +26,6 @@ const subcommands = {
   dev (env) {
     const express = require('express');
     const middleware = require('webpack-dev-middleware')
-    const history = require('connect-history-api-fallback')
     const { devServer: serverConfig } = config
     const listeningUrl = url.format({
       protocol: 'http',
@@ -39,7 +38,6 @@ const subcommands = {
 
     if (serverConfig.before) serverConfig.before(app)
     app.use(middleware(compiler, serverConfig));
-    app.use(history())
 
     app.listen(serverConfig.port, () => {
       console.log(`Listening at: ${listeningUrl}`);
