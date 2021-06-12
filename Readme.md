@@ -8,7 +8,6 @@
   - Typescript
   - styled-components
   - svgr
-- Easy use with Beaker Browser and homebase
 
 > **Warning**: this project is primarily for my personal use. Feel free to file issues, but I don't make any gaurantees that I'll get to them. Instead, I would encourage you to fork this repository and make your own personal set of scripts!
 
@@ -19,7 +18,7 @@ To get up and running run the following
 ```bash
 npm install --save-dev @webdesserts/app-scripts
 ```
-..._or_ if your using `yarn`
+..._or_ if you're using `yarn`
 
 ```bash
 yarn add --dev @webdesserts/app-scripts
@@ -43,11 +42,6 @@ From here you'll want to ensure you've done the following:
   ```json
   { "extends": "./node_modules/@webdesserts/app-scripts" }
   ```
-- If you're using Beaker Browser, ensure your `dat.json` contains the following config:
-  ```json
-  "web_root": "/public",
-  "fallback_page": "/index.html",
-  ```
 
 As I use these scripts more and more, I may end up automating the above steps, but for now you'll have to do everything manually.
 
@@ -56,4 +50,3 @@ If you ever want to see a list of the available scripts you can run `yarn app-sc
 ## Special Thanks
 
 - `create-react-app` team.
-- Paul Frazee & Blue Link Labs
