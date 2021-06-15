@@ -1,6 +1,6 @@
 {
   "name": "@webdesserts/app-scripts",
-  "version": "0.6.2",
+  "version": "0.6.3",
   "description": "A set of scripts I use when building new apps",
   "bin": {
     "app-scripts": "bin/app-scripts.js"
