@@ -1,7 +1,7 @@
 const { existsSync } = require('fs')
 const { resolve: resolvePath } = require('path')
-const { ScriptError: AppError } = require('./errors')
-const { indent } = require('./miscellaneous')
+const { ScriptError: AppError } = require('./utils/errors')
+const { indent } = require('./utils/miscellaneous')
 
 /**
  * Tries to resolve a require path according the the project root. If the resolve
@@ -72,7 +72,7 @@ function getProjectPaths() {
  */
 function getScriptsPaths() {
   return {
-    babelConfig: require.resolve('./babel.config.js'),
+    babelConfig: require.resolve('./config/babel.config.js'),
   }
 }
 

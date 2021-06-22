@@ -1,8 +1,8 @@
 const chalk = require("chalk")
 const webpack = require("webpack")
-const { logger } = require("./logger")
-const { indent } = require("./miscellaneous")
-const getConfig = require('./webpack.config')
+const { logger } = require("./utils/logger")
+const { indent } = require("./utils/miscellaneous")
+const getConfig = require('./config/webpack.config')
 
 /**
  * @typedef {import("./env").Env} Env

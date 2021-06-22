@@ -3,8 +3,8 @@ const formatter = require("react-dev-utils/typescriptFormatter");
 const { CleanWebpackPlugin } = require('clean-webpack-plugin')
 const os = require('os')
 const PrettyWebpack = require("./pretty-webpack-plugin");
-const { getEnv } = require('./env')
-const { getProjectPaths, getScriptsPaths } = require('./paths')
+const { getEnv } = require('../env')
+const { getProjectPaths, getScriptsPaths } = require('../paths')
 
 /**
  * @typedef {import('webpack').Configuration} WebpackConfiguration

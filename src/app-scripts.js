@@ -1,5 +1,5 @@
 const { getEnv } = require("./env")
-const { logger } = require("./logger")
+const { logger } = require("./utils/logger")
 const { subcommands, getSubcommandList } = require("./subcommands")
 
 /**
