@@ -1,2 +1,3 @@
 #!/usr/bin/env node
-require('../lib/app-scripts')
+const { run } = require('../src/app-scripts')
+run()

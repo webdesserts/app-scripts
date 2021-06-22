@@ -30,7 +30,6 @@ yarn add --dev @webdesserts/app-scripts
 "scripts": {
   "build": "app-scripts build",
   "dev": "app-scripts dev",
-  "watch": "app-scripts watch"
 }
 ```
 

@@ -1,19 +1,33 @@
-const chalk = require('chalk')
-const webpack = require('webpack')
-const config = require('./webpack.config.js')
-const env = require('./env')
+const chalk = require("chalk")
+const webpack = require("webpack")
+const { logger } = require("./logger")
+const { indent } = require("./miscellaneous")
+const getConfig = require('./webpack.config')
 
-const compiler = webpack(config)
+/**
+ * @typedef {import("./env").Env} Env
+ *
+ * @typedef {(env: Env) => Promise<void>} SubCommand
+ */
 
+/**
+ * @type {{ [key: string]: SubCommand }}
+ */
 const subcommands = {
-  help () {
+  async help () {
     const label = chalk.bold("USAGE")
-    console.info(`${label} app-scripts <command>`)
-    console.info(getSubcommandList())
+    logger.info(`${label} app-scripts <command>`)
+    logger.info(getSubcommandList())
   },
 
-  build (env) {
-    compiler.run()
+  async build (env) {
+    const config = getConfig()
+    const compiler = webpack(config)
+    if (env.watch) {
+      compiler.watch({}, () => {})
+    } else {
+      compiler.run(() => {})
+    }
 
     if (env.isDev) {
       const label = chalk.bold.yellow("WARN")
@@ -21,7 +35,9 @@ const subcommands = {
     }
   },
 
-  dev (env) {
+  async dev () {
+    const config = getConfig()
+    const compiler = webpack(config)
     const express = require('express');
     const middleware = require('webpack-dev-middleware')
     const { devServer: serverConfig } = config
@@ -49,35 +65,12 @@ const subcommands = {
         process.exit();
       });
     });
-  },
-
-  watch (env) {
-    if (env.isDev) {
-      const label = chalk.bold.yellow("WARN")
-      console.warn(`${label} you're building your app in development mode, please don't publish this bundle.`)
-    }
-
-    compiler.watch({}, () => {})
   }
 }
 
-function executeSubcommand(env) {
-  const fn = subcommands[env.subcommand]
-
-  if (!env.subcommand) {
-    return subcommands.help()
-  } else if (fn) {
-    const label = chalk.bold("INFO")
-    console.info(`${label} Executing app-script "${env.subcommand}"`)
-    console.info()
-    fn(env)
-  } else {
-    const label = chalk.bold.red("ERROR")
-    console.error(`${label} Unknown app-script named "${env.subcommand}"`)
-    console.error(getSubcommandList())
-  }
-}
-
+/**
+ * @returns {string}
+ */
 function getSubcommandList() {
   let lines = []
 
@@ -91,8 +84,4 @@ function getSubcommandList() {
   return lines.map(indent).join(`\n`)
 }
 
-function indent(string) {
-  return `  ${string}`
-}
-
-executeSubcommand(env)
+module.exports = { subcommands, getSubcommandList }
