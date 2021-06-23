@@ -6,6 +6,7 @@
     "app-scripts": "bin/app-scripts.js"
   },
   "files": [
+    "bin",
     "src",
     "index.d.ts",
     "app.tsconfig.json"
