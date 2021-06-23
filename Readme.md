@@ -40,7 +40,7 @@ From here you'll want to ensure you've done the following:
 - Add a `index.ts` (or `.js`) to the `src/` folder.
 - Add a `.tsconfig.json` with the following contents:
   ```json
-  { "extends": "./node_modules/@webdesserts/app-scripts" }
+  { "extends": "./node_modules/@webdesserts/app-scripts/app.tsconfig.json" }
   ```
 
 As I use these scripts more and more, I may end up automating the above steps, but for now you'll have to do everything manually.
