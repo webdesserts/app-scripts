@@ -28,7 +28,7 @@ function getProjectPaths() {
 
   if (!existsSync(packageConfig)) {
     throw new AppError(`Unable to find package.json`, [
-      `It looks like you're trying to run lib-scripts in an uninitialized project.`,
+      `It looks like you're trying to run app-scripts in an uninitialized project.`,
       `Please make sure you're in the correct directory and one of the following commands first:`,
       ``,
       indent(`yarn init`),
