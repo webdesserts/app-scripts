@@ -73,6 +73,8 @@ function getProjectPaths() {
 function getScriptsPaths() {
   return {
     babelConfig: require.resolve('./config/babel.config.js'),
+    jestConfig: require.resolve('./config/jest.config.js'),
+    svgrMock: require.resolve('./mocks/svgrMock.js'),
   }
 }
 

@@ -3,6 +3,13 @@ const webpack = require("webpack")
 const { logger } = require("./utils/logger")
 const { indent } = require("./utils/miscellaneous")
 const getConfig = require('./config/webpack.config')
+const child_process = require('child_process')
+const { promisify } = require('util')
+const { getProjectPaths, getScriptsPaths } = require("./paths")
+const { ScriptError } = require("./utils/errors")
+const jest = require('jest')
+
+const spawn = promisify(child_process.spawn)
 
 /**
  * @typedef {import("./env").Env} Env
@@ -65,6 +72,16 @@ const subcommands = {
         process.exit();
       });
     });
+  },
+
+  async test (env) {
+    const scriptsPaths = getScriptsPaths()
+
+    const args = ['--config', scriptsPaths.jestConfig]
+    if (env.watch) {
+      args.push('--watch')
+    }
+    await jest.run(args)
   }
 }
 
